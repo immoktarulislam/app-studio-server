@@ -11,7 +11,7 @@ import { requireAuth, setAuthCookie, clearAuthCookie } from '../middleware/auth.
 
 const router = Router();
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // At least one lowercase letter, one uppercase letter, and six characters total.
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 const GOOGLE_TOKEN_INFO_URL = 'https://oauth2.googleapis.com/tokeninfo';
