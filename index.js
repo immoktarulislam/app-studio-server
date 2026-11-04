@@ -6,11 +6,11 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-// import { connectDB, connectWithRetry } from './config/db.js';
-// import authRouter from './routes/auth.js';
-// import studiosRouter from './routes/studios.js';
-// import bookingsRouter from './routes/bookings.js';
-// import wishlistRouter from './routes/wishlist.js';
+import { connectDB, connectWithRetry } from './config/db.js';
+import authRouter from './routes/auth.js';
+import studiosRouter from './routes/studios.js';
+import bookingsRouter from './routes/bookings.js';
+import wishlistRouter from './routes/wishlist.js';
 
 const app = express();
 const PORT = Number.parseInt(process.env.PORT, 10) || 5000;

@@ -8,13 +8,13 @@ import { MongoClient } from 'mongodb';
  * Routes that need data answer 503 until the connection lands.
  */
 
-let client = null;
-let db = null;
-let attempts = 0;
-/** In-flight connection attempt, so concurrent callers share one MongoClient. */
-let pending = null;
+// let client = null;
+// let db = null;
+// let attempts = 0;
+// /** In-flight connection attempt, so concurrent callers share one MongoClient. */
+// let pending = null;
 
-const RETRY_INTERVAL_MS = 15000;
+// const RETRY_INTERVAL_MS = 15000;
 
 /** Derives the database name from MONGODB_URI's path, defaulting to "studiospace". */
 function resolveDbName() {
