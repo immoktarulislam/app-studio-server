@@ -33,7 +33,7 @@ Dashboard path: **Project → Settings → Environment Variables**
 | `MONGODB_DB` | `studiospace` | ✅ |
 | `JWT_SECRET` | the same secret used locally | ✅ |
 | `CLIENT_URL` | `https://<client-url>` (add `http://localhost:3000` after a comma for local dev) | ✅ |
-| `GOOGLE_CLIENT_ID` | `865764286269-j6rlgljipni9grne32ep4eenktvelbju.apps.googleusercontent.com` | optional |
+| `GOOGLE_CLIENT_ID` | `.....apps.googleusercontent.com` | optional |
 
 Env changes only take effect on a **redeploy**, so run `vercel --prod` again
 after adding them.
