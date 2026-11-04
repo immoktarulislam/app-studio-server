@@ -7,17 +7,6 @@ The REST API behind StudioSpace, a peer-to-peer marketplace for creative studios
 
 Open the live URL in a browser and you get a JSON description of the API — every real endpoint lives under `/api`.
 
-## ✨ Features
-
-- **Auth in HTTPOnly cookies** — JWT session cookie (`studiospace_token`, 7-day lifetime) is `HttpOnly` and `Secure`, and switches to `SameSite=None` in production so the cross-site client can send it. Client-side scripts can never read the token.
-- **Local + Google sign-in** — bcrypt-hashed passwords with uppercase/lowercase/6+ validation, and Google ID tokens verified server-side against `iss`, `aud` and Google's `tokeninfo` endpoint before an account is upserted.
-- **Studio CRUD with ownership checks** — create, edit and delete listings; `PUT`/`DELETE` only succeed for the authenticated owner, and the payload is validated field-by-field against a whitelist.
-- **Double-booking protection** — a booking is rejected with `409` when its slot overlaps an existing `Pending`/`Confirmed` reservation for the same studio and date.
-- **Filterable, paginated browse** — free-text search across title/location, category, min/max hourly rate, four sort orders and page-based pagination.
-- **Serverless-ready** — exports the app as the default handler, skips `listen()` on Vercel, and `dbGuard` waits for MongoDB on a cold start instead of answering `503`. Local development is unchanged (`npm run dev`).
-- **Resilient by design** — a down database never crashes the process: failures are logged and retried while the API keeps serving; centralized 404 and error handlers return JSON for every route.
-
-## 🛠 Tech Stack
 
 | Layer | Technologies |
 | --- | --- |
@@ -229,4 +218,35 @@ app.use(cors({ origin: CLIENT_ORIGINS, credentials: true }));
 | `npm start` | Start the server once |
 | `npm run seed` | Wipe and rebuild demo data |
 
+## 🚢 Deployment
 
+Vercel detects `index.js` at the project root and runs the app as a single Function — no `vercel.json` is needed. Two serverless-specific details are already handled:
+
+- `export default app` is the handler, and `app.listen()` only runs when `process.env.VERCEL` is unset, so local dev behaves exactly as before.
+- `dbGuard` waits up to 10 seconds for MongoDB on a cold start instead of immediately answering `503`.
+
+**Live endpoints**
+
+```
+GET https://app-studio-server.vercel.app/            → API description
+GET https://app-studio-server.vercel.app/api/health  → {"ok":true}
+GET https://app-studio-server.vercel.app/api/studios → Atlas data
+```
+
+Full walkthrough, environment variables, Atlas network access and a troubleshooting table: **[DEPLOY.md](./DEPLOY.md)**.
+
+## 🐛 Troubleshooting
+
+| Symptom | Cause / fix |
+| --- | --- |
+| `503 {"error":"Database unavailable"}` | `MONGODB_URI`/`MONGODB_DB` missing, or Atlas blocks the caller → allow `0.0.0.0/0` in Network Access |
+| `JWT_SECRET environment variable is not set` | Set `JWT_SECRET` (locally in `.env`, on Vercel in Settings → Environment Variables) and restart/redeploy |
+| CORS error in the browser | The client origin is missing from `CLIENT_URL` → add it (comma-separated) and **redeploy** |
+| Login works locally but not live | Both apps must be `https://`; `SameSite=None; Secure` is applied automatically when `NODE_ENV=production` |
+| Data missing after seeding | Confirm the URI path (or `MONGODB_DB`) points at the database you seeded |
+| `404 {"error":"Route not found: ..."}` | Wrong path — this host serves the REST API only; try `/` or `/api/health` |
+
+## 📖 Related
+
+- [app-studio-client](../app-studio-client/README.md) — the Next.js frontend
+- [DEPLOY.md](./DEPLOY.md) — Vercel deployment guide
