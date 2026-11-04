@@ -1,7 +1,7 @@
-// import { Router } from 'express';
-// import bcrypt from 'bcryptjs';
-// import { getDB, dbGuard } from '../config/db.js';
-// import { requireAuth, setAuthCookie, clearAuthCookie } from '../middleware/auth.js';
+import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import { getDB, dbGuard } from '../config/db.js';
+import { requireAuth, setAuthCookie, clearAuthCookie } from '../middleware/auth.js';
 
 /**
  * Authentication routes: local register/login, Google sign-in, logout and the
@@ -83,15 +83,15 @@ router.post('/register', dbGuard, async (req, res) => {
     return res.status(400).json({ error: 'An account with this email already exists' });
   }
 
-  const doc = {
-    name: name.trim(),
-    email: normalizedEmail,
-    photo: typeof photo === 'string' ? photo.trim() : '',
-    password: await bcrypt.hash(password, 10),
-    provider: 'local',
-    wishlist: [],
-    createdAt: new Date(),
-  };
+  // const doc = {
+  //   name: name.trim(),
+  //   email: normalizedEmail,
+  //   photo: typeof photo === 'string' ? photo.trim() : '',
+  //   password: await bcrypt.hash(password, 10),
+  //   provider: 'local',
+  //   wishlist: [],
+  //   createdAt: new Date(),
+  // };
 
   try {
     await users.insertOne(doc);
