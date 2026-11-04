@@ -53,13 +53,13 @@ export async function connectDB() {
   attempts += 1;
   const nextClient = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 });
   pending = (async () => {
-    // try {
-    //   await nextClient.connect();
-    //   client = nextClient;
-    //   db = client.db(resolveDbName());
-    //   console.log(`[db] Connected to MongoDB (database "${db.databaseName}")`);
-    //   return db;
-    // } catch (err) {
+    try {
+      await nextClient.connect();
+      client = nextClient;
+      db = client.db(resolveDbName());
+      console.log(`[db] Connected to MongoDB (database "${db.databaseName}")`);
+      return db;
+    } catch (err) {
       await nextClient.close().catch(() => { });
       console.warn(
         `[db] MongoDB connection failed (attempt ${attempts}): ${err.message}. ` +

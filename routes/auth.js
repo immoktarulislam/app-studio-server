@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import bcrypt from 'bcryptjs';
-import { getDB, dbGuard } from '../config/db.js';
-import { requireAuth, setAuthCookie, clearAuthCookie } from '../middleware/auth.js';
+// import { Router } from 'express';
+// import bcrypt from 'bcryptjs';
+// import { getDB, dbGuard } from '../config/db.js';
+// import { requireAuth, setAuthCookie, clearAuthCookie } from '../middleware/auth.js';
 
 /**
  * Authentication routes: local register/login, Google sign-in, logout and the
