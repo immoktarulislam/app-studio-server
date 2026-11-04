@@ -1,0 +1,12 @@
+# Never upload secrets or local-only files to Vercel.
+.env
+.env.*
+!.env.example
+
+# Dependencies and local artifacts are provided by the build.
+node_modules
+.vercel
+
+# Local diagnostics/scratch files.
+tmp*.mjs
+*.log
