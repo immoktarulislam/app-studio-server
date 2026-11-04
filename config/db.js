@@ -8,13 +8,13 @@ import { MongoClient } from 'mongodb';
  * Routes that need data answer 503 until the connection lands.
  */
 
-// let client = null;
-// let db = null;
-// let attempts = 0;
-// /** In-flight connection attempt, so concurrent callers share one MongoClient. */
-// let pending = null;
+let client = null;
+let db = null;
+let attempts = 0;
+/** In-flight connection attempt, so concurrent callers share one MongoClient. */
+let pending = null;
 
-// const RETRY_INTERVAL_MS = 15000;
+const RETRY_INTERVAL_MS = 15000;
 
 /** Derives the database name from MONGODB_URI's path, defaulting to "studiospace". */
 function resolveDbName() {
@@ -53,13 +53,13 @@ export async function connectDB() {
   attempts += 1;
   const nextClient = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 });
   pending = (async () => {
-    try {
-      await nextClient.connect();
-      client = nextClient;
-      db = client.db(resolveDbName());
-      console.log(`[db] Connected to MongoDB (database "${db.databaseName}")`);
-      return db;
-    } catch (err) {
+    // try {
+    //   await nextClient.connect();
+    //   client = nextClient;
+    //   db = client.db(resolveDbName());
+    //   console.log(`[db] Connected to MongoDB (database "${db.databaseName}")`);
+    //   return db;
+    // } catch (err) {
       await nextClient.close().catch(() => { });
       console.warn(
         `[db] MongoDB connection failed (attempt ${attempts}): ${err.message}. ` +
