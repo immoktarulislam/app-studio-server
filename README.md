@@ -7,6 +7,17 @@ The REST API behind StudioSpace, a peer-to-peer marketplace for creative studios
 
 Open the live URL in a browser and you get a JSON description of the API — every real endpoint lives under `/api`.
 
+## ✨ Features
+
+- **Auth in HTTPOnly cookies** — JWT session cookie (`studiospace_token`, 7-day lifetime) is `HttpOnly` and `Secure`, and switches to `SameSite=None` in production so the cross-site client can send it. Client-side scripts can never read the token.
+- **Local + Google sign-in** — bcrypt-hashed passwords with uppercase/lowercase/6+ validation, and Google ID tokens verified server-side against `iss`, `aud` and Google's `tokeninfo` endpoint before an account is upserted.
+- **Studio CRUD with ownership checks** — create, edit and delete listings; `PUT`/`DELETE` only succeed for the authenticated owner, and the payload is validated field-by-field against a whitelist.
+- **Double-booking protection** — a booking is rejected with `409` when its slot overlaps an existing `Pending`/`Confirmed` reservation for the same studio and date.
+- **Filterable, paginated browse** — free-text search across title/location, category, min/max hourly rate, four sort orders and page-based pagination.
+- **Serverless-ready** — exports the app as the default handler, skips `listen()` on Vercel, and `dbGuard` waits for MongoDB on a cold start instead of answering `503`. Local development is unchanged (`npm run dev`).
+- **Resilient by design** — a down database never crashes the process: failures are logged and retried while the API keeps serving; centralized 404 and error handlers return JSON for every route.
+
+## 🛠 Tech Stack
 
 | Layer | Technologies |
 | --- | --- |

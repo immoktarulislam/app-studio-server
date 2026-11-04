@@ -87,12 +87,12 @@ if (process.env.VERCEL) {
   void connectWithRetry();
 }
 
-process.on('unhandledRejection', (reason) => {
-  console.error('[process] Unhandled promise rejection:', reason);
-});
+// process.on('unhandledRejection', (reason) => {
+//   console.error('[process] Unhandled promise rejection:', reason);
+// });
 
-process.on('uncaughtException', (err) => {
-  console.error('[process] Uncaught exception:', err);
-});
+// process.on('uncaughtException', (err) => {
+//   console.error('[process] Uncaught exception:', err);
+// });
 
 export default app;
