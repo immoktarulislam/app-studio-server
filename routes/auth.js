@@ -83,15 +83,15 @@ router.post('/register', dbGuard, async (req, res) => {
     return res.status(400).json({ error: 'An account with this email already exists' });
   }
 
-  // const doc = {
-  //   name: name.trim(),
-  //   email: normalizedEmail,
-  //   photo: typeof photo === 'string' ? photo.trim() : '',
-  //   password: await bcrypt.hash(password, 10),
-  //   provider: 'local',
-  //   wishlist: [],
-  //   createdAt: new Date(),
-  // };
+  const doc = {
+    name: name.trim(),
+    email: normalizedEmail,
+    photo: typeof photo === 'string' ? photo.trim() : '',
+    password: await bcrypt.hash(password, 10),
+    provider: 'local',
+    wishlist: [],
+    createdAt: new Date(),
+  };
 
   try {
     await users.insertOne(doc);
